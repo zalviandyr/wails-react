@@ -5,6 +5,7 @@ import moment from "moment";
 export type INote = {
   id: number;
   text: string;
+  image: string;
   createdAt: moment.Moment;
 };
 
@@ -15,14 +16,19 @@ export const NoteService = {
       queryFn: async () => {
         const result = await GetNotes();
 
-        return result.map((e) => ({ id: e.ID, text: e.Text, createdAt: moment(e.CreatedAt) }));
+        return result.map((e) => ({
+          id: e.ID,
+          text: e.Text,
+          image: e.Image,
+          createdAt: moment(e.CreatedAt),
+        }));
       },
     }),
 
   useCreate: () =>
     useMutation({
       mutationFn: (data: INote) => {
-        return CreateNote(data.text);
+        return CreateNote(data.text, data.image);
       },
     }),
 

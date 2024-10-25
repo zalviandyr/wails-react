@@ -17,7 +17,8 @@ type App struct {
 
 type Note struct {
 	gorm.Model
-	Text string
+	Text  string
+	Image string
 }
 
 // NewApp creates a new App application struct
@@ -45,8 +46,8 @@ func (a *App) Print(data any) {
 	fmt.Println(data)
 }
 
-func (a *App) CreateNote(text string) Note {
-	note := Note{Text: text}
+func (a *App) CreateNote(text string, image string) Note {
+	note := Note{Text: text, Image: image}
 
 	a.db.Create(&note)
 	return note

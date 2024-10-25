@@ -9,6 +9,7 @@ export namespace main {
 	    // Go type: gorm
 	    DeletedAt: any;
 	    Text: string;
+	    Image: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Note(source);
@@ -21,6 +22,7 @@ export namespace main {
 	        this.UpdatedAt = this.convertValues(source["UpdatedAt"], null);
 	        this.DeletedAt = this.convertValues(source["DeletedAt"], null);
 	        this.Text = source["Text"];
+	        this.Image = source["Image"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {

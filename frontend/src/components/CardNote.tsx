@@ -12,7 +12,9 @@ export const CardNote: React.FC<CardNoteProps> = ({ note, onDelete }) => {
     <div className="bg-white rounded-md p-2">
       <div className="flex flex-col gap-3">
         <div className="flex flex-row justify-between items-start">
-          <span>{note.text}</span>
+          {note.image && <img src={note.image} className="w-44 m-2" />}
+
+          <span className="text-left flex-grow ml-4">{note.text}</span>
 
           <button type="button" onClick={() => onDelete(note)}>
             <DeleteIcon className="text-red-400" />
