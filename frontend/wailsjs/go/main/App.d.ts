@@ -4,6 +4,8 @@ import {main} from '../models';
 
 export function CreateNote(arg1:string):Promise<main.Note>;
 
+export function DeleteNote(arg1:number):Promise<void>;
+
 export function GetNotes():Promise<Array<main.Note>>;
 
 export function Print(arg1:any):Promise<void>;

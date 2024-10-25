@@ -46,16 +46,19 @@ func (a *App) Print(data any) {
 }
 
 func (a *App) CreateNote(text string) Note {
-	note := &Note{Text: text}
+	note := Note{Text: text}
 
-	a.db.Create(note)
-	return *note
+	a.db.Create(&note)
+	return note
 }
 
 func (a *App) GetNotes() []Note {
 	var notes []Note
 
 	a.db.Find(&notes)
-
 	return notes
+}
+
+func (a *App) DeleteNote(id uint) {
+	a.db.Delete(&Note{}, id)
 }

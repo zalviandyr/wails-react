@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import moment from "moment";
 import { Button, TextField } from "@mui/material";
 import { CardNote } from "../components/CardNote";
-import { INote } from "../types/note";
 import { useForm } from "react-hook-form";
-import { CreateNote, GetNotes, Print } from "../../wailsjs/go/main/App";
+import { INote, NoteService } from "../api/note";
+import { Print } from "../../wailsjs/go/main/App";
 
 export const Home: React.FC = () => {
   const [notes, setNotes] = useState<INote[]>([]);
+  const { data, refetch } = NoteService.useAll();
+  const { mutate: mutateCreate } = NoteService.useCreate();
+  const { mutate: mutateDelete } = NoteService.useDelete();
 
   const {
     register,
@@ -17,18 +19,22 @@ export const Home: React.FC = () => {
     formState: { errors },
   } = useForm<INote>();
 
-  useEffect(() => {
-    GetNotes().then((result) =>
-      setNotes(result.map((e) => ({ text: e.Text, createdAt: moment(e.CreatedAt) })))
-    );
-  }, []);
+  useEffect(() => setNotes(data ?? []), [data]);
 
-  const submit = (data: INote) => {
-    CreateNote(data.text).then((result) => {
-      setNotes((prev) => [...prev, { text: result.Text, createdAt: moment(result.CreatedAt) }]);
+  const submit = async (data: INote) => {
+    mutateCreate(data, {
+      onSuccess: () => {
+        refetch();
 
-      reset({ text: "" });
-      clearErrors("text");
+        reset({ text: "" });
+        clearErrors("text");
+      },
+    });
+  };
+
+  const deleteAction = async (data: INote) => {
+    mutateDelete(data, {
+      onSuccess: () => refetch(),
     });
   };
 
@@ -54,7 +60,7 @@ export const Home: React.FC = () => {
         {notes
           .sort((a, b) => b.createdAt.unix() - a.createdAt.unix())
           .map((e) => (
-            <CardNote {...e} />
+            <CardNote key={e.id} note={e} onDelete={deleteAction} />
           ))}
       </div>
     </div>
