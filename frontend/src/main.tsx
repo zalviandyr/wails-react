@@ -1,14 +1,17 @@
-import React from 'react'
-import {createRoot} from 'react-dom/client'
-import './style.css'
-import App from './App'
+import "./assets/style.css";
 
-const container = document.getElementById('root')
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { Home } from "./pages/Home";
 
-const root = createRoot(container!)
+const container = document.getElementById("root");
+
+const root = createRoot(container!);
 
 root.render(
-    <React.StrictMode>
-        <App/>
-    </React.StrictMode>
-)
+  <React.StrictMode>
+    <div className="bg-black min-h-screen bg-opacity-60 p-8">
+      <Home />
+    </div>
+  </React.StrictMode>
+);
